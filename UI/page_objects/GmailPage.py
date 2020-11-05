@@ -57,3 +57,39 @@ class GmailPage(BasePage):
                 "Письмо отправлено.")
         )
         return self
+
+    def click_draft(self):
+        WebDriverWait(self.driver, 7).until(
+            EC.presence_of_element_located((
+                By.LINK_TEXT, "Черновики"))
+        )
+        self.driver.find_element_by_link_text("Черновики").click()
+        return self
+
+    def return_drafts(self):
+        draft = self.driver.find_elements_by_css_selector("div.Cp")[8].text
+        return draft
+
+    def click_posted(self):
+        WebDriverWait(self.driver, 7).until(
+            EC.presence_of_element_located((
+                By.LINK_TEXT, "Отправленные"))
+        )
+        self.driver.find_element_by_link_text("Отправленные").click()
+        return self
+
+    def return_posts(self):
+        post = self.driver.find_elements_by_css_selector("div.Cp")[8].text
+        return post
+
+    def click_marked(self):
+        WebDriverWait(self.driver, 7).until(
+            EC.presence_of_element_located((
+                By.LINK_TEXT, "Помеченные"))
+        )
+        self.driver.find_element_by_link_text("Помеченные").click()
+        return self
+
+    def return_marked_text(self):
+        mark_text = self.driver.find_element_by_css_selector("td.TC").text
+        return mark_text

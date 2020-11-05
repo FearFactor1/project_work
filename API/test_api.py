@@ -12,7 +12,7 @@ schema = {
 
 class TestClassApi:
 
-    #1 тест
+    # 1 тест
     @allure.feature('get')
     @allure.story('Проверяем запрос get')
     @pytest.mark.parametrize("num", ["2", "3", "4"])
@@ -27,7 +27,7 @@ class TestClassApi:
             if num == "2":
                 assert js['data']['first_name'] == 'Janet'
 
-    #2 тест
+    # 2 тест
     @allure.feature('put')
     @allure.story('Проверяем запрос put')
     @pytest.mark.parametrize("num", ["2", "3", "4"])
@@ -43,7 +43,7 @@ class TestClassApi:
         with allure.step("проверяем, что ответ в правильном формате пришёл"):
             assert v.validate(js, schema)
 
-    #3 тест
+    # 3 тест
     @allure.feature('post')
     @allure.story('Проверяем запрос post')
     def test_post(self, url_api):
@@ -54,7 +54,7 @@ class TestClassApi:
         with allure.step("проверяем текст ошибки"):
             assert js['error'] == 'Missing email or username'
 
-    #4 тест
+    # 4 тест
     @allure.feature('delete')
     @allure.story('Проверяем запрос delete')
     @pytest.mark.parametrize("num", ["2", "3", "4"])
@@ -62,3 +62,13 @@ class TestClassApi:
         res = requests.delete(f'{url_api}api/users/{num}')
         with allure.step("проверяем статус код, пользоветель удалён"):
             assert res.status_code == 204
+
+    # 5 тест
+    @allure.feature('get')
+    @allure.story('SINGLE USER NOT FOUND')
+    @pytest.mark.parametrize("num", ["23", "33", "44"])
+    def test_not_found(self, url_api, num):
+        res = requests.get(f'{url_api}api/users/{num}')
+        with allure.step("проверяем статус код, пользоветель не найден"):
+            assert res.status_code == 404
+        assert res.text == '{}'
